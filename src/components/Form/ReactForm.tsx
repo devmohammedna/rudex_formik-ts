@@ -1,13 +1,14 @@
 import { Formik } from 'formik'
 import { useDispatch } from "react-redux";
-import {FormSchema} from '../../utils/validation'
+import formSchema from '../../Helpers/validation'
 import {
-  createNewdataform,
-  updatedataform,
-} from "../../redux/DataForm/actions";
+  createNewdataform, updatedataform,} from "../../Redux/DataForm/actions";
+import { ThunkDispatch } from "redux-thunk";
 import CustomForm from './CustomForm'
 import { useSelector } from "react-redux";
-// import initialValues from '../../Utils/initialValues';
+import { AppState } from '../../Redux/store';
+import { ActionsType } from '../../@types/types';
+import { FormSchema } from "../../@types/validation";
 
 const initialValue={  
   jopTitle: "",
@@ -30,25 +31,22 @@ const initialValue={
   currency: "",
 }
 export default function ReactForm() {
-   const dispatch = useDispatch();
-    const {
-    FormReduser: { isUpdate, dataform },
-  } = useSelector((state) => state);
+   const dispatch = useDispatch<ThunkDispatch<AppState,any ,ActionsType>>();
+    const {FormReduser: { isUpdate,dataform }, } = useSelector((state:AppState):AppState => state);
     return (
         <div>
            <Formik
            enableReinitialize={true}
-           initialValues={initialValue}
+           initialValues={isUpdate ? dataform : initialValue}
             onSubmit={(values, { resetForm }) => {
-        
-            isUpdate
-            ? dispatch(updatedataform(values))
-            : dispatch(createNewdataform(values));
+                isUpdate
+          ? dispatch(updatedataform(values as FormSchema))
+          :  dispatch(createNewdataform(values as FormSchema));
 
              resetForm();
      
           }}
-           validationSchema={FormSchema}
+           validationSchema={formSchema}
            children={CustomForm}
            
            /> 

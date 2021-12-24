@@ -1,12 +1,13 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
+import { applyMiddleware, combineReducers, createStore,compose  } from "redux";
 import thunk from "redux-thunk";
-// import { itemReducer, listReducer } from "./List/reducer";
-
+import DataFormReduser from './DataForm/reducer'
+ 
+import FormReduser from "./Form/reducer";
 const reducers = combineReducers({
-//   item: itemReducer,
-//   list: listReducer,
+DataFormReduser,
+FormReduser
 });
 
-export const store = createStore(reducers, applyMiddleware(thunk));
+export const store = createStore(reducers,{}, applyMiddleware(thunk));
 
 export type AppState = ReturnType<typeof reducers>;

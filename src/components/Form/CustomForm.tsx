@@ -1,13 +1,16 @@
-import { Form } from 'formik'
 import React from 'react'
+import { Form, FormikErrors, FormikTouched, FormikValues } from "formik";
 import IuputForm from './InputForm'
 import ReactSelect from "./SelectInputForm/ReactSelect";
 import ReactSelectComponent from "./SelectInputForm/ReactSelectComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { FINISH_UPDATE } from "../../redux/Form/constant";
-
-export default function CustomForm({errors,touched, values }) {
-      const { isUpdate } = useSelector((state) => state.FormReduser);
+import { AppState } from '../../Redux/store';
+import { FormConstants } from "../../Redux/Form/constants";
+interface Props {
+  errors:FormikErrors<FormikValues>, touched:FormikTouched<FormikValues>, values:FormikValues
+}
+export default function CustomForm({errors,touched, values }:Props) {
+      const { isUpdate } = useSelector((state:AppState) => state.FormReduser);
   const dispatch = useDispatch();
     return (
         <Form>
@@ -41,6 +44,7 @@ export default function CustomForm({errors,touched, values }) {
           label="Start Date"
           touched={touched}
           errors={errors}
+          required
          />
          {!values.currentlyWork &&
           <IuputForm 
@@ -59,6 +63,7 @@ export default function CustomForm({errors,touched, values }) {
           checkBoxLabel="Currently Work There"
           touched={touched}
           errors={errors}
+        
         />
       </div>
        <IuputForm
@@ -67,6 +72,7 @@ export default function CustomForm({errors,touched, values }) {
         placeholder="Job Description"
         touched={touched}
         errors={errors}
+        required
       />
        <h4>Company Details</h4>
        <IuputForm
@@ -75,33 +81,38 @@ export default function CustomForm({errors,touched, values }) {
         placeholder="Company Name"
         touched={touched}
         errors={errors}
+        required
         />
         <IuputForm
-         type="text"
+        type="text"
         name="companyAdress"
         placeholder="Company Adress"
         touched={touched}
         errors={errors}
+        required
         />
         <IuputForm
-          type="text"
+        type="text"
         name="companyIndustry"
         placeholder="Company Industry"
         touched={touched}
         errors={errors}
+        required
         />
-           <IuputForm
-         type="text"
+        <IuputForm
+        type="text"
         name="companySize"
         placeholder="Company Size"
         touched={touched}
         errors={errors}
+        required
         />
-           <IuputForm
+        <IuputForm
          name="companySector"
         placeholder="Company Sector"
         touched={touched}
         errors={errors}
+          required
         />
          <IuputForm
         type="text"
@@ -109,6 +120,7 @@ export default function CustomForm({errors,touched, values }) {
         placeholder="Supervisor Name"
         touched={touched}
         errors={errors}
+        required
       />
       <IuputForm
         type="text"
@@ -116,6 +128,7 @@ export default function CustomForm({errors,touched, values }) {
         placeholder="# of Employees Supervised by You"
         touched={touched}
         errors={errors}
+        required
       />
       <IuputForm
         type="text"
@@ -123,6 +136,7 @@ export default function CustomForm({errors,touched, values }) {
         placeholder="Reason Of Leaving"
         touched={touched}
         errors={errors}
+        required
       />
         <h4>Compensation</h4>
          <div className="box-salary">
@@ -132,6 +146,7 @@ export default function CustomForm({errors,touched, values }) {
           placeholder="Start Salary"
           touched={touched}
           errors={errors}
+          required
         />
         <IuputForm
           type="text"
@@ -139,6 +154,7 @@ export default function CustomForm({errors,touched, values }) {
           placeholder="End Salary"
           touched={touched}
           errors={errors}
+          required
         />
         <ReactSelect
           name='currency'
@@ -154,7 +170,7 @@ export default function CustomForm({errors,touched, values }) {
       {isUpdate && (
         <button
           className="addNew"
-          onClick={() => dispatch({ type: FINISH_UPDATE })}
+          onClick={() => dispatch({ type: FormConstants.FINISH_UPDATE })}
         >
           Add New
         </button>

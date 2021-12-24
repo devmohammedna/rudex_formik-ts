@@ -1,7 +1,18 @@
-import { Field } from 'formik'
+import { Field, FormikErrors, FormikTouched, FormikValues  } from 'formik'
 import React from 'react'
-
-export default function IuputForm({  type, name,label,checkBoxLabel, placeholder, errors, touched, component='input'}) {
+interface Props {
+  type?:string,
+  name:string,
+  placeholder?:string,
+  label?:string,
+  checkBoxLabel?:string,
+  component?:string,
+  touched:FormikTouched<FormikValues>,
+  errors:FormikErrors<FormikValues>,
+  disabled?:boolean,
+  required?:boolean,
+}
+export default function IuputForm({  type, name,label,required,checkBoxLabel, placeholder, errors, touched, component='input'}:Props) {
     return (
         <div>
             <Field   
@@ -11,7 +22,7 @@ export default function IuputForm({  type, name,label,checkBoxLabel, placeholder
              placeholder={placeholder}
              autoComplete={'off'}
              component={component}
-            
+             required={required}
              />
               {/* {label && (
              <label className="label" htmlFor={name}>
